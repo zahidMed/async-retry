@@ -7,7 +7,7 @@
     <groupId>org.digibooster.retryable</groupId>
     <artifactId>async-retry</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <modules>
         <module>async-retry-commons</module>
         <module>async-retry-spring-scheduler</module>
@@ -36,7 +36,7 @@
     </developers>
 
     <properties>
-        <spring-framework.version>5.0.0.RELEASE</spring-framework.version>
+        <spring-framework.version>5.2.22.RELEASE</spring-framework.version>
         <spring-tx.version>5.1.2.RELEASE</spring-tx.version>
         <slf4j.version>1.7.26</slf4j.version>
         <aspectjweaver.version>1.8.9</aspectjweaver.version>
@@ -46,6 +46,7 @@
         <java.version>1.8</java.version>
         <maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
         <quartz.version>2.3.2</quartz.version>
+        <lombok.version>1.18.6</lombok.version>
     </properties>
 
     <dependencyManagement>
@@ -88,7 +89,7 @@
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
-                <version>1.18.6</version>
+                <version>${lombok.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.quartz-scheduler</groupId>
