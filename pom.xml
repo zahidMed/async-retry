@@ -7,7 +7,7 @@
     <groupId>org.digibooster.retryable</groupId>
     <artifactId>async-retry</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <modules>
         <module>async-retry-commons</module>
         <module>async-retry-spring-scheduler</module>
