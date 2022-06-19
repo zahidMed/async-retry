@@ -7,7 +7,7 @@
     <groupId>org.digibooster.retryable</groupId>
     <artifactId>async-retry</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <modules>
         <module>async-retry-commons</module>
         <module>async-retry-spring-scheduler</module>
@@ -40,7 +40,7 @@
         <spring-tx.version>5.1.2.RELEASE</spring-tx.version>
         <slf4j.version>1.7.26</slf4j.version>
         <aspectjweaver.version>1.8.9</aspectjweaver.version>
-        <junit.version>4.12</junit.version>
+        <junit.version>4.13.2</junit.version>
         <maven.compiler.target>1.8</maven.compiler.target>
         <maven.compiler.source>1.8</maven.compiler.source>
         <java.version>1.8</java.version>

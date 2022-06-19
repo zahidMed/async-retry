@@ -21,7 +21,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-
+/**
+ *
+ * @author Mohammed ZAHID {@literal <}zahid.med@gmail.com{@literal >}
+ */
 @Import({AsyncRetryIT.TestConfig.class})
 @RunWith(SpringRunner.class)
 public class AsyncRetryIT {

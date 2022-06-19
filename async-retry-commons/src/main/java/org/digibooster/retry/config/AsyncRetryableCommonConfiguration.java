@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 
 /**
+ * Common configuration
+ *
  * @author Mohammed ZAHID {@literal <}zahid.med@gmail.com{@literal >}
  */
 public class AsyncRetryableCommonConfiguration {
@@ -32,13 +34,15 @@ public class AsyncRetryableCommonConfiguration {
                                                                               @Autowired BeanFactory beanFactory){
         AsyncRetryableBeanFactoryAwareAdvisingPostProcessor postProcessor= new AsyncRetryableBeanFactoryAwareAdvisingPostProcessor(taskInterceptor);
         postProcessor.setBeanFactory(beanFactory);
-        return  postProcessor;
+        return postProcessor;
     }
 
     @Bean
-    public AsyncRetryableInterceptor retryableTaskInterceptor(@Autowired @Lazy @Qualifier("asyncRetryMethodExecutionScheduler") MethodExecutionScheduler asyncRetryMethodExecutionScheduler){
+    public AsyncRetryableInterceptor retryableTaskInterceptor(@Autowired @Lazy @Qualifier("asyncRetryMethodExecutionScheduler") MethodExecutionScheduler asyncRetryMethodExecutionScheduler,
+                                                              @Autowired ApplicationContext applicationContext){
     	AsyncRetryableInterceptor asyncRetryableInterceptor = new AsyncRetryableInterceptor();
     	asyncRetryableInterceptor.setMethodExecutionScheduler(asyncRetryMethodExecutionScheduler);
+    	asyncRetryableInterceptor.setApplicationContext(applicationContext);
     	return asyncRetryableInterceptor;
     }
 }

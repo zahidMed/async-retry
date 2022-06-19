@@ -6,12 +6,16 @@ import org.junit.Test;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ *
+ * @author Mohammed ZAHID {@literal <}zahid.med@gmail.com{@literal >}
+ */
 public class GlobalUtilsTest {
 	
 
 
     @Test
-    public void test_checkRetryFor(){
+    public void test_check_retry_for(){
         TargetMethodInformation methodInformation= TargetMethodInformation
                 .builder()
                 .retryFor(new Class[]{IOException.class,NullPointerException.class})

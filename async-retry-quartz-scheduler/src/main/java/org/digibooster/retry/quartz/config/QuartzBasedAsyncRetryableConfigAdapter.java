@@ -5,7 +5,6 @@ import org.digibooster.retry.quartz.factory.QuartzSchedulerJobFactory;
 import org.digibooster.retry.quartz.scheduler.QuartzBasedMethodExecutionScheduler;
 import org.digibooster.retry.scheduler.MethodExecutionScheduler;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;

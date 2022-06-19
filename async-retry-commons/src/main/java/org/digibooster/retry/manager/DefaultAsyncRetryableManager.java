@@ -9,6 +9,7 @@ import org.digibooster.retry.policy.AsyncRetryableSchedulingPolicy;
 import org.digibooster.retry.scheduler.MethodExecutionScheduler;
 import org.digibooster.retry.util.TargetMethodInformation;
 import org.digibooster.retry.util.GlobalUtils;
+import org.digibooster.retry.util.HierarchyCallChecker;
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.util.MethodInvoker;
@@ -17,7 +18,7 @@ import org.springframework.util.StringUtils;
 import java.lang.reflect.InvocationTargetException;
 
 /**
- *
+ *  Default implementation of @{@link AsyncRetryableManager}
  * @author Mohammed ZAHID {@literal <}zahid.med@gmail.com{@literal >}
  */
 @Slf4j
@@ -53,14 +54,16 @@ public class DefaultAsyncRetryableManager implements AsyncRetryableManager {
         	listener = applicationContext.getBean(methodInformation.getRetryListener(), AsyncRetryableListener.class);
         }
 
+        HierarchyCallChecker hierarchyCallChecker = HierarchyCallChecker.getInstance();
+        if(listener!=null){
+            try {
+                listener.beforeRetry(methodInformation.getRetryCount(), methodInformation.getArgs());
+            }catch (Throwable e){
+                log.error("Error while calling before retry listener method",e);
+            }
+        }
         try {
-        	if(listener!=null){
-        	    try {
-                    listener.beforeRetry(methodInformation.getRetryCount(), methodInformation.getArgs());
-                }catch (Throwable e){
-        	        log.error("Error while calling before retry listener method",e);
-                }
-        	}
+            hierarchyCallChecker.setCallFlag();
             Object result =methodInvoker.invoke();
             callAfterRetryListener(listener,methodInformation.getRetryCount(),result, methodInformation.getArgs(), null);
         } catch (InvocationTargetException e){
@@ -92,6 +95,9 @@ public class DefaultAsyncRetryableManager implements AsyncRetryableManager {
             }
         } catch (IllegalAccessException e) {
             log.error("Could not access to the target method {}.{}",methodInformation.getBeanClass(),methodInformation.getName(),e);
+        }
+        finally {
+            hierarchyCallChecker.clear();
         }
     }
 

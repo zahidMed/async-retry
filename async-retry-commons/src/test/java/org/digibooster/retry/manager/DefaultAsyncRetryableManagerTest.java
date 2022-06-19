@@ -18,6 +18,10 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ *
+ * @author Mohammed ZAHID {@literal <}zahid.med@gmail.com{@literal >}
+ */
 @RunWith(SpringRunner.class)
 @Import(DefaultAsyncRetryableManagerTest.TestConfig.class)
 public class DefaultAsyncRetryableManagerTest {
