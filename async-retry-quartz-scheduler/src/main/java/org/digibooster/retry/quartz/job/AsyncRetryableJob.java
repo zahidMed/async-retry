@@ -2,7 +2,7 @@ package org.digibooster.retry.quartz.job;
 
 import lombok.extern.slf4j.Slf4j;
 import org.digibooster.retry.manager.AsyncRetryableManager;
-import org.digibooster.retry.quartz.scheduler.QuartzBasedMethodExecutionScheduler;
+import org.digibooster.retry.quartz.scheduler.DefaultQuartzBasedMethodExecutionScheduler;
 import org.digibooster.retry.util.TargetMethodInformation;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
@@ -23,7 +23,7 @@ public class AsyncRetryableJob implements Job {
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         log.trace("Start quartz job for async-retryable");
-        TargetMethodInformation methodInformation = (TargetMethodInformation) jobExecutionContext.getMergedJobDataMap().get(QuartzBasedMethodExecutionScheduler.JOB_MI_PARAM);
+        TargetMethodInformation methodInformation = (TargetMethodInformation) jobExecutionContext.getMergedJobDataMap().get(DefaultQuartzBasedMethodExecutionScheduler.JOB_MI_PARAM);
         asyncRetryableManager.process(methodInformation);
     }
 }
