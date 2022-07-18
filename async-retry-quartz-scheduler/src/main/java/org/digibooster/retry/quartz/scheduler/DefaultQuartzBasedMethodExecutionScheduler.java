@@ -8,6 +8,7 @@ import org.digibooster.retry.util.TargetMethodInformation;
 import org.quartz.*;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
 
+import java.util.Date;
 import java.util.UUID;
 
 /**
@@ -39,10 +40,7 @@ public class DefaultQuartzBasedMethodExecutionScheduler implements MethodExecuti
         Trigger trigger = TriggerBuilder.newTrigger()
                 .withIdentity(jobId, JOB_GROUP)
                 .usingJobData(dataMap)
-                .startNow()
-                .withSchedule(SimpleScheduleBuilder.simpleSchedule()
-                        .withRepeatCount(0)
-                        .withIntervalInMilliseconds(period))
+                .startAt(new Date(System.currentTimeMillis()+ period))
                 .build();
         JobDetail jobDetail = JobBuilder.newJob(AsyncRetryableJob.class)
                 .withIdentity(new JobKey(jobId, JOB_GROUP))
