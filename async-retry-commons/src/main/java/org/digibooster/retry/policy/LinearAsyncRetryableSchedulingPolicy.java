@@ -15,6 +15,11 @@ public class LinearAsyncRetryableSchedulingPolicy implements AsyncRetryableSched
     }
 
     public LinearAsyncRetryableSchedulingPolicy(Integer maxAttempts, long period, double backoffCoefficient){
+        this(0,maxAttempts,period,backoffCoefficient);
+    }
+
+    public LinearAsyncRetryableSchedulingPolicy(long firstExecutionDelay, Integer maxAttempts, long period, double backoffCoefficient){
+        this.firstExecutionDelay = firstExecutionDelay;
         this.maxAttempts=maxAttempts;
         this.period = period;
         this.backoffCoefficient = backoffCoefficient;
@@ -38,8 +43,14 @@ public class LinearAsyncRetryableSchedulingPolicy implements AsyncRetryableSched
      */
     private double backoffCoefficient;
 
+    /**
+     * The first execution delay
+     */
+    private long firstExecutionDelay = 0;
+
     @Override
     public long next(Integer currentRetryCount) {
+        if(currentRetryCount==0) return firstExecutionDelay;
         return (currentRetryCount>maxAttempts)?-1L: (long)(currentRetryCount*period*backoffCoefficient);
     }
 }

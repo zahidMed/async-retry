@@ -3,6 +3,10 @@ package org.digibooster.retry.policy;
 import org.junit.Assert;
 import org.junit.Test;
 
+/**
+ *
+ * @author Mohammed ZAHID {@literal <}zahid.med@gmail.com{@literal >}
+ */
 public class FixedWindowRetryableSchedulingPolicyTest {
 
     @Test

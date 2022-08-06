@@ -5,9 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.digibooster.retry.manager.AsyncRetryableManager;
+import org.digibooster.retry.policy.AsyncRetryableSchedulingPolicy;
 import org.digibooster.retry.scheduler.MethodExecutionScheduler;
-import org.digibooster.retry.util.StackTraceUtils;
 import org.digibooster.retry.util.TargetMethodInformation;
+import org.digibooster.retry.util.HierarchyCallChecker;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.lang.Nullable;
 
@@ -28,6 +30,9 @@ public class AsyncRetryableInterceptor implements MethodInterceptor, Serializabl
     @Setter
     protected MethodExecutionScheduler methodExecutionScheduler;
 
+    @Setter
+    protected ApplicationContext applicationContext;
+
 
     /**
      * Extracts information about the intercepted method and schedules it's execution immediately (first time execution).
@@ -40,7 +45,7 @@ public class AsyncRetryableInterceptor implements MethodInterceptor, Serializabl
     @Override
     public Object invoke(MethodInvocation invocation) throws Throwable {
 
-        if(StackTraceUtils.existsInCurrentStackTrace(AsyncRetryableManager.class)){
+        if(HierarchyCallChecker.getInstance().checkFlagExists()){
             log.trace("This retryable method is already called by the task manager, do not call scheduler to avoid scheduling loop");
             return invocation.proceed();
         }
@@ -60,8 +65,10 @@ public class AsyncRetryableInterceptor implements MethodInterceptor, Serializabl
                 .noRetryFor(annotation.noRetryFor())
                 .build();
 
+        AsyncRetryableSchedulingPolicy asyncRetryableSchedulingPolicy = applicationContext.getBean(methodInformation.getRetryPolicy(), AsyncRetryableSchedulingPolicy.class);
+        long firstExecutionDelay=asyncRetryableSchedulingPolicy.next(0);
         //execute immediately for the first time
-        methodExecutionScheduler.schedule(methodInformation,0L);
+        methodExecutionScheduler.schedule(methodInformation,firstExecutionDelay);
         return null;
     }
 

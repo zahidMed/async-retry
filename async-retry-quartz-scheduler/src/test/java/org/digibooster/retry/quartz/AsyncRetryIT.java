@@ -4,7 +4,7 @@ import lombok.Data;
 import org.digibooster.retry.annotation.AsyncRetryable;
 import org.digibooster.retry.listener.AsyncRetryableListener;
 import org.digibooster.retry.policy.FixedWindowRetryableSchedulingPolicy;
-import org.digibooster.retry.quartz.config.QuartzBasedAsyncRetryableConfigAdapter;
+import org.digibooster.retry.quartz.config.DefaultQuartzBasedAsyncRetryableConfigAdapter;
 import org.digibooster.retry.quartz.factory.QuartzSchedulerJobFactory;
 import org.junit.Assert;
 import org.junit.Test;
@@ -21,8 +21,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-
-@Import({AsyncRetryIT.TestConfig.class})
+/**
+ *
+ * @author Mohammed ZAHID {@literal <}zahid.med@gmail.com{@literal >}
+ */
+@Import({AsyncRetryIT.TestConfigDefault.class})
 @RunWith(SpringRunner.class)
 public class AsyncRetryIT {
 
@@ -54,7 +57,7 @@ public class AsyncRetryIT {
 
 
     @Configuration
-    static class TestConfig extends QuartzBasedAsyncRetryableConfigAdapter {
+    static class TestConfigDefault extends DefaultQuartzBasedAsyncRetryableConfigAdapter {
 
         @Bean
         public FixedWindowRetryableSchedulingPolicy simpleRetrySchedulingPolicy() {
